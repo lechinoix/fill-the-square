@@ -50,8 +50,13 @@ export default (props) => {
     Math.abs(reference.y - newPosition.y) === 2 &&
     Math.abs(reference.x - newPosition.x) === 2;
 
-  const goBack = (event) => {
+  const handleKeyPress = (event) => {
     if (event.keyCode !== 85) return;
+
+    goBack();
+  };
+
+  const goBack = () => {
     if (roundHistory.length === 0) return;
 
     const lastRound = roundHistory.pop();
@@ -61,8 +66,8 @@ export default (props) => {
   };
 
   useEffect(() => {
-    document.addEventListener("keydown", goBack);
-    return () => document.removeEventListener("keydown", goBack);
+    document.addEventListener("keydown", handleKeyPress);
+    return () => document.removeEventListener("keydown", handleKeyPress);
   });
 
   return (
@@ -82,7 +87,10 @@ export default (props) => {
           </div>
         ))}
       </div>
-      <p>To undo an action, hit u</p>
+      <p>To undo an action, hit u or click on this button</p>
+      <button className="go-back-button" onClick={goBack}>
+        Undo
+      </button>
     </>
   );
 };

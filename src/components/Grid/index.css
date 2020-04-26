@@ -6,3 +6,16 @@
 .line-wrapper {
   display: flex;
 }
+
+.go-back-button {
+  background-color: transparent;
+  border: thin solid white;
+  border-radius: 3px;
+  color: white;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.go-back-button:hover {
+  background-color: #999;
+}
