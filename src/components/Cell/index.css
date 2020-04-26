@@ -12,6 +12,10 @@
   background-color: cornflowerblue;
 }
 
+.cell.selectable {
+  background-color: green;
+}
+
 .cell:hover {
   background-color: #999;
 }

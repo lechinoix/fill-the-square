@@ -31,6 +31,24 @@ export default (props) => {
   const lastCellClicked = last(roundHistory);
   const isCellActive = (pos) => isEqual(pos, lastCellClicked);
 
+  const isSelectable = (position) => {
+    return (
+      roundHistory.length > 1 &&
+      (isSelectableOnLine(lastCellClicked, position) ||
+        isSelectableOnDiagonal(lastCellClicked, position))
+    );
+  };
+
+  const isSelectableOnLine = (reference, newPosition) =>
+    (reference.x === newPosition.x &&
+      Math.abs(reference.y - newPosition.y) === 3) ||
+    (reference.y === newPosition.y &&
+      Math.abs(reference.x - newPosition.x) === 3);
+
+  const isSelectableOnDiagonal = (reference, newPosition) =>
+    Math.abs(reference.y - newPosition.y) === 2 &&
+    Math.abs(reference.x - newPosition.x) === 2;
+
   return (
     <div className="grid-line-wrapper">
       {squareRange.map((_, y) => (
@@ -38,8 +56,8 @@ export default (props) => {
           {squareRange.map((_, x) => (
             <Cell
               key={x}
-              position={{ x, y }}
               isActive={isCellActive({ x, y })}
+              isSelectable={isSelectable({ x, y })}
               number={numberMatrix[x][y]}
               onClick={() => setNumber({ x, y })}
             />

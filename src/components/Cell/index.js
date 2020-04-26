@@ -1,8 +1,13 @@
 import React from "react";
 import "./index.css";
 
-export default ({ position, number, isActive, onClick }) => (
-  <div onClick={onClick} className={`cell ${isActive ? "active" : null}`}>
+export default ({ number, isActive, isSelectable, onClick }) => (
+  <div
+    onClick={onClick}
+    className={`cell ${isActive ? "active" : null} ${
+      isSelectable ? "selectable" : null
+    }`}
+  >
     {number}
   </div>
 );
