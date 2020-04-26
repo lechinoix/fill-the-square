@@ -4,7 +4,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   border: thin dashed white;
 }
 
@@ -14,6 +13,7 @@
 
 .cell.selectable {
   background-color: green;
+  cursor: pointer;
 }
 
 .cell:hover {

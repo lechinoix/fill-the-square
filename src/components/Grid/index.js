@@ -22,6 +22,8 @@ export default (props) => {
   const [roundHistory, setRoundHistory] = useState([]);
 
   const setNumber = ({ x, y }) => {
+    if (roundHistory.length > 0 && !isSelectable({ x, y })) return;
+
     numberMatrix[x][y] = roundNumber;
     setroundNumber(roundNumber + 1);
     setRoundHistory([...roundHistory, { x, y }]);
@@ -33,7 +35,8 @@ export default (props) => {
 
   const isSelectable = (position) => {
     return (
-      roundHistory.length > 1 &&
+      roundHistory.length > 0 &&
+      !numberMatrix[position.x][position.y] &&
       (isSelectableOnLine(lastCellClicked, position) ||
         isSelectableOnDiagonal(lastCellClicked, position))
     );
