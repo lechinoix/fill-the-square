@@ -8,6 +8,10 @@
   border: thin dashed white;
 }
 
+.cell.active {
+  background-color: cornflowerblue;
+}
+
 .cell:hover {
   background-color: #999;
 }
