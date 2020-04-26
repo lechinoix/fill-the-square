@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import last from "lodash/last";
 import isEqual from "lodash/isEqual";
 import Cell from "../Cell";
@@ -18,14 +18,12 @@ for (var j = 0; j < SQUARE_SIZE; j++) {
 
 export default (props) => {
   const [numberMatrix, setNumberMatrix] = useState(emptyNumberMatrix);
-  const [roundNumber, setroundNumber] = useState(1);
   const [roundHistory, setRoundHistory] = useState([]);
 
   const setNumber = ({ x, y }) => {
     if (roundHistory.length > 0 && !isSelectable({ x, y })) return;
 
-    numberMatrix[x][y] = roundNumber;
-    setroundNumber(roundNumber + 1);
+    numberMatrix[x][y] = roundHistory.length + 1;
     setRoundHistory([...roundHistory, { x, y }]);
     setNumberMatrix([...numberMatrix]);
   };
@@ -52,21 +50,39 @@ export default (props) => {
     Math.abs(reference.y - newPosition.y) === 2 &&
     Math.abs(reference.x - newPosition.x) === 2;
 
+  const goBack = (event) => {
+    if (event.keyCode !== 85) return;
+    if (roundHistory.length === 0) return;
+
+    const lastRound = roundHistory.pop();
+    numberMatrix[lastRound.x][lastRound.y] = null;
+    setNumberMatrix([...numberMatrix]);
+    setRoundHistory([...roundHistory]);
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", goBack);
+    return () => document.removeEventListener("keydown", goBack);
+  });
+
   return (
-    <div className="grid-line-wrapper">
-      {squareRange.map((_, y) => (
-        <div key={y} className="line-wrapper">
-          {squareRange.map((_, x) => (
-            <Cell
-              key={x}
-              isActive={isCellActive({ x, y })}
-              isSelectable={isSelectable({ x, y })}
-              number={numberMatrix[x][y]}
-              onClick={() => setNumber({ x, y })}
-            />
-          ))}
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="grid-wrapper">
+        {squareRange.map((_, y) => (
+          <div key={y} className="line-wrapper">
+            {squareRange.map((_, x) => (
+              <Cell
+                key={x}
+                isActive={isCellActive({ x, y })}
+                isSelectable={isSelectable({ x, y })}
+                number={numberMatrix[x][y]}
+                onClick={() => setNumber({ x, y })}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+      <p>To undo an action, hit u</p>
+    </>
   );
 };

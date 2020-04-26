@@ -15,7 +15,3 @@
   background-color: green;
   cursor: pointer;
 }
-
-.cell:hover {
-  background-color: #999;
-}
