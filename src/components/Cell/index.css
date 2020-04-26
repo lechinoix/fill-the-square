@@ -4,4 +4,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  border: thin dashed white;
+}
+
+.cell:hover {
+  background-color: #999;
 }
